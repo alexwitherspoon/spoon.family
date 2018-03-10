@@ -63,6 +63,21 @@ instances:
             -   instance:spoon.family
 ```
 
+Edit /etc/datadog-agent/conf.d/postgres.yaml
+```
+init_config:
+
+instances:
+   -   host: localhost
+       port: 5432
+       username: mmuser
+       password: mmuser_password
+
+       tags:
+            - spoon.family
+            - mattermost
+```
+
 
 ## Install Docker Compose
 ```
