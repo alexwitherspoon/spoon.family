@@ -5,6 +5,8 @@ services:
   db:
     build: db
     restart: unless-stopped
+    ports:
+      - "5432:5432"
     volumes:
       - ./volumes/db/var/lib/postgresql/data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro
