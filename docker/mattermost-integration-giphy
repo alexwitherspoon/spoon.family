@@ -1,7 +1,7 @@
 docker run -d \
 --name mattermost-giphy \
 --restart=always \
--p 5000:5000 \
+-p 8082:5000 \
 -e MATTERMOST_GIPHY_TOKEN=gqbfqxi1tfnz3pzootb1buc6go \
 -e MATTERMOST_GIPHY_HOST=0.0.0.0 \
 -e MATTERMOST_GIPHY_PORT=5000 \
