@@ -70,4 +70,8 @@ server {
        proxy_pass http://backend;
    }
 
+   location ~ /.well-known {
+       allow all;
+   }
+
 }
