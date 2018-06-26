@@ -12,11 +12,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       - POSTGRES_USER=mmuser
-      - POSTGRES_PASSWORD=mmuser_password
-      - POSTGRES_DB=mattermost
-      - AWS_ACCESS_KEY_ID=***REMOVED***
-      - AWS_SECRET_ACCESS_KEY=***REMOVED***
-      - WALE_S3_PREFIX=s3://spoon.family.backup
+      - POSTGRES_PASSWORD=<PASSWORD>
+      - POSTGRES_DB=<PASSSWORD>
+      - AWS_ACCESS_KEY_ID=<AWS KEY>
+      - AWS_SECRET_ACCESS_KEY=<AWS KEY>
+      - WALE_S3_PREFIX=s3://<BUCKET>
       - AWS_REGION=us-west-2
 
   app:
