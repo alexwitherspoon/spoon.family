@@ -1,6 +1,8 @@
 # spoon.family
 Configuration for spoon.family server
 
+Below are steps, and any edited files from a base Debian Stable installation are included in the repo in the same file layout as on the filesystem.
+
 /etc/hostname
 ```
 spoon.family
@@ -87,4 +89,6 @@ chmod +x /usr/local/bin/docker-compose
 
 ## Install Nginx
 ```
+apt-get install nginx
 ```
+Copy config from https://github.com/alexwitherspoon/spoon.family/tree/master/etc/nginx
