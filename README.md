@@ -25,7 +25,7 @@ Copy these configs : https://github.com/alexwitherspoon/spoon.family/tree/master
 
 ## Install DataDogAgent
 ```
-DD_API_KEY=***REMOVED*** bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/datadog-agent/master/cmd/agent/install_script.sh)"
+DD_API_KEY=<YOUR-DATADOG-KEY> bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/datadog-agent/master/cmd/agent/install_script.sh)"
 ```
 
 ## Install Docker
