@@ -16,6 +16,13 @@ apt-get dist-upgrade
 apt-get install htop
 ```
 
+## Unattended Auto Updates
+https://wiki.debian.org/UnattendedUpgrades
+```
+apt-get install unattended-upgrades apt-listchanges
+```
+Copy these configs : https://github.com/alexwitherspoon/spoon.family/tree/master/etc/apt/apt.conf.d
+
 ## Install DataDogAgent
 ```
 DD_API_KEY=***REMOVED*** bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/datadog-agent/master/cmd/agent/install_script.sh)"
@@ -88,7 +95,51 @@ chmod +x /usr/local/bin/docker-compose
 ```
 
 ## Install Nginx
+Copy config from https://github.com/alexwitherspoon/spoon.family/tree/master/etc/nginx
 ```
 apt-get install nginx
 ```
-Copy config from https://github.com/alexwitherspoon/spoon.family/tree/master/etc/nginx
+
+## Set up SSL certs
+https://www.howtoforge.com/tutorial/install-letsencrypt-and-secure-nginx-in-debian-9/
+```
+apt-get install certbot
+certbot certonly --webroot –w /var/www/html/ -d yourdomain.com –d www.yourdomain.com
+```
+
+## Start Main Mattermost Docker Service
+```
+cd /opt
+git clone https://github.com/mattermost/mattermost-docker.git
+cd /opt/mattermost-docker
+docker-compose build
+docker-compose up -d
+```
+Follow the Docker run commands for each remaining service in the https://github.com/alexwitherspoon/spoon.family/tree/master/docker folder individually.
+
+## Set up aut-Mattermost Updates
+Mattermost updates on the 16th of every month, so this script should be enabled for cron monthly on the 17th.
+https://github.com/alexwitherspoon/spoon.family/blob/master/opt/UpdateMattermost.sh I placed this file in /opt
+
+## Set Up Crontab jobs
+```
+## SSL Cert
+@daily /usr/bin/certbot renew --noninteractive --renew-hook "/bin/systemctl reload nginx" >> /var/log/le-renew.log
+
+#
+## Base backup
+@daily docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e backup-push /var/lib/postgresql/data"
+# Keep the most recent 7 base backups and remove the old ones
+@daily docker exec mattermost-db su - postgres sh -c "/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e delete --confirm retain 7"
+
+#
+## Monthly Mattermost Update
+0 4 17 * * /opt/UpdateMattermost.sh
+
+#
+## Clean Docker
+0 0 1 * * docker system prune -af
+0 0 2 * * docker images -q |xargs docker rmi
+```
+
+
