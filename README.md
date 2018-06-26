@@ -1,7 +1,7 @@
 # spoon.family
 Configuration for spoon.family server
 
-Below are steps, and any edited files from a base Debian Stable installation are included in the repo in the same file layout as on the filesystem.
+Below are steps, and any edited files from a base Debian Stable installation are included in the repo in the same file layout as on the filesystem. I used an c5.large large instance running in AWS, and two S3 buckets, one for mattermost file storage, and the second for Postgresql WAL logs+backups. 
 
 /etc/hostname
 ```
