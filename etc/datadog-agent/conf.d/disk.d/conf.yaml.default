@@ -1,0 +1,10 @@
+init_config: null
+instances:
+-   excluded_filesystems:
+    - tmpfs
+    - none
+    - shm
+    - nsfs
+    - netns
+    - overlay
+    use_mount: false
