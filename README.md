@@ -134,7 +134,7 @@ https://github.com/alexwitherspoon/spoon.family/blob/master/opt/UpdateMattermost
 
 #
 ## Monthly Mattermost Update
-0 4 17 * * /opt/UpdateMattermost.sh
+0 4 17 * * /opt/UpdateMattermost.sh >> /var/log/syslog
 
 #
 ## Clean Docker
