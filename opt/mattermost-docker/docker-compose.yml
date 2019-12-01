@@ -1,9 +1,10 @@
-version: "2"
+version: "3"
 
 services:
 
   db:
     build: db
+    read_only: true
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -12,33 +13,37 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       - POSTGRES_USER=mmuser
-      - POSTGRES_PASSWORD=<PASSWORD>
-      - POSTGRES_DB=<PASSSWORD>
-      - AWS_ACCESS_KEY_ID=<AWS KEY>
-      - AWS_SECRET_ACCESS_KEY=<AWS KEY>
-      - WALE_S3_PREFIX=s3://<BUCKET>
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+      - AWS_ACCESS_KEY_ID=AKIAJAFRBISQBYJTROLA
+      - AWS_SECRET_ACCESS_KEY=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
+      - WALE_S3_PREFIX=s3://spoon.family.backup
       - AWS_REGION=us-west-2
 
   app:
     build:
       context: app
-      # comment out 2 following lines for team edition
       args:
          - edition=team
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8000:8065"
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
       - ./volumes/app/mattermost/data:/mattermost/data:rw
       - ./volumes/app/mattermost/logs:/mattermost/logs:rw
+      - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw
+      - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
       - /etc/localtime:/etc/localtime:ro
     environment:
       - APP_HOST=spoon.family
-      - APP_PORT_NUMBER=80
+      - APP_PORT_NUMBER=8000
       # set same as db credentials and dbname
       - MM_USERNAME=mmuser
       - MM_PASSWORD=mmuser_password
       - MM_DBNAME=mattermost
+      # use the credentials you've set above, in the format:
+      # MM_SQLSETTINGS_DATASOURCE=postgres://${MM_USERNAME}:${MM_PASSWORD}@db:5432/${MM_DBNAME}?sslmode=disable&connect_timeout=10
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mmuser_password@db:5432/mattermost?sslmode=disable&connect_timeout=10
       # in case your config is not in default location
       #- MM_CONFIG=/mattermost/config/config.json
